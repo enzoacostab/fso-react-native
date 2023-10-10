@@ -1,34 +1,24 @@
-import React, {useEffect, useState} from 'react';
-import { FlatList, View, StyleSheet } from 'react-native';
-import RepositoryListItem from './RepositoryListItem';
+import React, {useEffect, useContext} from 'react';
 import useRepositories from '../hooks/useRepository';
-
-const styles = StyleSheet.create({
-  separator: {
-    height: 10,
-  },
-});
-
-const ItemSeparator = () => <View style={styles.separator} />;
+import RepositoryListContainer from './RepositoryListContainer';
+import { context } from '../context/Context';
 
 const RepositoryList = () => {
-  const { data } = useRepositories();
-  const [repositories, setRepositories] = useState([]);
+  const {repsListOrderBy, searchKeyword, repositories, setRepositories} = useContext(context);
+  const { data, loading, fetchMore } = useRepositories(repsListOrderBy, searchKeyword, {first:4});
 
   useEffect(() => {
     if (data){
       setRepositories(data.repositories);
     }
+
   }, [data]);
   
-  return (
-    <FlatList
-      data={repositories}
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem={({item}) => <RepositoryListItem item={item} />}
-      keyExtractor={item => item.id}
-    />
-  );
+  const onEndReach = () => {
+    fetchMore();
+  };
+
+  return loading ? null : <RepositoryListContainer repositories={repositories} onEndReach={onEndReach} />;
 };
 
 export default RepositoryList;

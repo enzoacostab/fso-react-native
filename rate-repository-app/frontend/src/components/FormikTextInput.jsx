@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const FormikTextInput = ({ name, ...props }) => {
+const FormikTextInput = ({ name, multiline, ...props }) => {
   const [field, meta, helpers] = useField(name);
   const showError = meta.touched && meta.error;
 
@@ -22,6 +22,8 @@ const FormikTextInput = ({ name, ...props }) => {
         onBlur={() => helpers.setTouched(true)}
         value={field.value}
         error={showError}
+        testID={name}
+        multiline={multiline}
         {...props}
       />
       {showError && <Text style={styles.errorText}>{meta.error}</Text>}

@@ -22,6 +22,9 @@ const styles = StyleSheet.create({
   bgPrimary: {
     backgroundColor: theme.colors.primary,
   },
+  bgDanger: {
+    backgroundColor: theme.colors.err,
+  },
   fontSizeSubheading: {
     fontSize: theme.fontSizes.subheading,
   },
@@ -31,7 +34,7 @@ const styles = StyleSheet.create({
 });
 
 const Text = ({ color, bg, fontSize, fontWeight, style, text, ...props }) => {
-  const navigation = useNavigation();
+  const navigation = text && useNavigation();
   
   const textStyle = [
     styles.text,
@@ -39,6 +42,7 @@ const Text = ({ color, bg, fontSize, fontWeight, style, text, ...props }) => {
     color === 'primary' && styles.colorPrimary,
     color === 'white' && styles.colorWhite,
     bg === 'primary' && styles.bgPrimary,
+    bg === 'danger' && styles.bgDanger,
     fontSize === 'subheading' && styles.fontSizeSubheading,
     fontWeight === 'bold' && styles.fontWeightBold,
     style,

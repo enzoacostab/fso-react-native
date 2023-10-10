@@ -1,9 +1,10 @@
 import Text from "./Text";
-import { View, Image } from "react-native";
+import { View, Image, Pressable, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import theme from "../theme";
 import React from "react";
 
-const style = {
+const style = StyleSheet.create({
 	container:{
 		backgroundColor: "white",
 		padding: 20
@@ -32,37 +33,47 @@ const style = {
 		justifyContent: "center",
 		alignItems: "center"
 	}
-};
+});
 
-const RepositoryListItem = ({item}) =>(
-	<View style={style.container}>
-		<View style={style.div}>
-			<Image style={theme.logo} source={{uri:item.ownerAvatarUrl}}></Image>
-			<View style={style.divC}>
-				<Text fontWeight="bold" fontSize="subheading">{item.fullName}</Text>
-				<Text>{item.description}</Text>
-				<Text fontWeight="bold" style={style.language}>{item.language}</Text>
+const RepositoryListItem = ({item}) => {
+	const navigation = useNavigation();
+
+	const handlePress = () => {
+		navigation.navigate("Repository", {repository : item});
+	};
+
+	return (
+		<Pressable onPress={handlePress}>
+			<View style={style.container}>
+				<View style={style.div}>
+					<Image style={theme.logo} source={{uri:item.ownerAvatarUrl}}></Image>
+					<View style={style.divC}>
+						<Text fontWeight="bold" fontSize="subheading" testID='fullName'>{item.fullName}</Text>
+						<Text testID='description'>{item.description}</Text>
+						<Text fontWeight="bold" style={style.language} testID='language'>{item.language}</Text>
+					</View>
+				</View>
+				<View style={style.div}>
+					<View style={style.center}>
+						<Text fontWeight="bold" testID='stargazersCount'>{(item.stargazersCount/1000).toFixed(1)+"k"}</Text>
+						<Text>Stars</Text>
+					</View>
+					<View style={style.center}>
+						<Text fontWeight="bold" testID='forksCount'>{(item.forksCount/1000).toFixed(1)+"k"}</Text>
+						<Text>Forks</Text>
+					</View>
+					<View style={style.center}>
+						<Text fontWeight="bold" testID='reviewCount'>{item.reviewCount}</Text>
+						<Text>Reviews</Text>
+					</View>
+					<View style={style.center}>
+						<Text fontWeight="bold" testID='ratingAverage'>{item.ratingAverage}</Text>
+						<Text>Rating</Text>
+					</View>
+				</View>
 			</View>
-		</View>
-		<View style={style.div}>
-			<View style={style.center}>
-				<Text fontWeight="bold">{(item.stargazersCount/1000).toFixed(1)+"k"}</Text>
-				<Text>Stars</Text>
-			</View>
-			<View style={style.center}>
-				<Text fontWeight="bold">{(item.forksCount/1000).toFixed(1)+"k"}</Text>
-				<Text>Forks</Text>
-			</View>
-			<View style={style.center}>
-				<Text fontWeight="bold">{item.reviewCount}</Text>
-				<Text>Reviews</Text>
-			</View>
-			<View style={style.center}>
-				<Text fontWeight="bold">{item.ratingAverage}</Text>
-				<Text>Rating</Text>
-			</View>
-		</View>
-	</View>
-);
+		</Pressable>
+	);
+};
 
 export default RepositoryListItem;

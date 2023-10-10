@@ -33,6 +33,14 @@ const theme = {
     width: 66,
     height: 58,
   },
+
+  button:{
+    margin: 10,
+    borderRadius: 5,
+    textAlign: "center",
+    padding: 15,
+    borderColor: '#586069'
+  }
 };
   
 export default theme;

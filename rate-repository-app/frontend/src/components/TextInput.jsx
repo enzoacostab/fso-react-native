@@ -17,10 +17,10 @@ const styles = StyleSheet.create({
   }
 });
 
-const TextInput = ({ style, error, pass, ...props }) => {
+const TextInput = ({ style, error, pass, testID, multiline, ...props }) => {
   const textInputStyle = [style, styles.text, error && styles.err];
 
-  return <NativeTextInput placeholderTextColor={error ? theme.colors.err : "#A9A9A9"} secureTextEntry={pass} style={textInputStyle} {...props} />;
+  return <NativeTextInput multiline={multiline} testID={testID} placeholderTextColor={error ? theme.colors.err : "#A9A9A9"} secureTextEntry={pass} style={textInputStyle} {...props} />;
 };
 
 export default TextInput;
